@@ -15,7 +15,7 @@ stages {
 
     stage('Build Docker Image') {
         steps {
-            sh '''
+         sudo  sh '''
                 echo "Building Docker image..."
                 docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} -t ${IMAGE_NAME}:latest .
             '''
@@ -24,7 +24,7 @@ stages {
 
     stage('Stop Old Container') {
         steps {
-            sh '''
+       sudo  sh '''
                 echo "Stopping old container..."
                 docker stop ${CONTAINER_NAME} || true
                 docker rm ${CONTAINER_NAME} || true
@@ -34,7 +34,7 @@ stages {
 
     stage('Run Container') {
         steps {
-            sh '''
+           sudo sh '''
                 echo "Starting new container..."
 
                 docker run -d \
@@ -49,7 +49,7 @@ stages {
         steps {
             echo 'Checking Docker container...'
 
-            sh '''
+           sudo sh '''
                 sleep 10
 
                 echo "Docker containers:"

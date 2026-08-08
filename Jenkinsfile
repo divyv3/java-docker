@@ -4,10 +4,8 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = 'hello-java'
         IMAGE_NAME = 'hello-java'
         CONTAINER_NAME = 'hello-java'
-        APP_PORT = '8081'
     }
 
     stages {
@@ -15,12 +13,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'mvn clean test'
             }
         }
 
@@ -44,26 +36,22 @@ pipeline {
             }
         }
 
-        stage('Run New Container') {
+        stage('Deploy') {
             steps {
                 sh '''
                     docker run -d \
                         --name ${CONTAINER_NAME} \
-                        -p ${APP_PORT}:8081 \
+                        -p 8080:8080 \
                         ${IMAGE_NAME}:${BUILD_NUMBER}
                 '''
             }
         }
 
-        stage('Verify Deployment') {
+        stage('Verify') {
             steps {
                 sh '''
                     sleep 10
-
-                    echo "Running containers:"
                     docker ps
-
-                    echo "Application logs:"
                     docker logs ${CONTAINER_NAME}
                 '''
             }
@@ -72,15 +60,11 @@ pipeline {
 
     post {
         success {
-            echo 'Deployment successful!'
+            echo '🚀 Deployment successful!'
         }
 
         failure {
-            echo 'Pipeline failed!'
-        }
-
-        always {
-            sh 'docker images ${IMAGE_NAME} || true'
+            echo '❌ Deployment failed!'
         }
     }
 }

@@ -39,7 +39,7 @@ stages {
 
                 docker run -d \
                     --name ${CONTAINER_NAME} \
-                    -p 8080:8080 \
+                    -p 8081:8081 \
                     ${IMAGE_NAME}:${BUILD_NUMBER}
             '''
         }

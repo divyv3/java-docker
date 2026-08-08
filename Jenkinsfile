@@ -49,7 +49,7 @@ stages {
         steps {
             echo 'Checking Docker container...'
 
-           sudo sh '''
+           sh '''
                 sleep 10
 
                 echo "Docker containers:"

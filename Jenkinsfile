@@ -1,7 +1,5 @@
 pipeline {
 agent any
-
-```
 environment {
     IMAGE_NAME = 'hello-java'
     CONTAINER_NAME = 'hello-java'
@@ -78,6 +76,6 @@ post {
         echo 'Pipeline finished.'
     }
 }
-```
+
 
 }
